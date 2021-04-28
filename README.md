@@ -1,2 +1,30 @@
-# shamir-secret
-Shamir's Secret Sharing on Rust
+### Разделение и восстановление секрета по схеме Шамира ###
+***Программа, разделяет секретную строку в hex формате длиной 256 bit (например, приватный ключ ECDSA secp256k1) на N частей по схеме Шамира и восстанавливает его при предъявлении любых T частей.***
+
+#### Клонирование репозитория и запуск ####
+ ```bash
+git clone https://github.com/Curryrasul/shamir-secret
+cd shamir-secret/
+```
+
+**Для сборки проекта введите:**
+```bash
+cargo build --release
+```
+
+**Запуск после сборки:**
+```bash
+./target/release/shamir-secret --split
+```
+
+```bash
+./target/release/shamir-secret --recover
+```
+
+**Пример запуска в режиме split:** 
+![alt text](./images/split.jpg)
+**Вывод 10 ключей, из которых 5 достаточно для восстановления**
+
+**Пример запуска в режиме recover:** 
+![alt text](./images/recover.jpg)
+**Ввод 5 ключей, ключ - восстановлен**

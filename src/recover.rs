@@ -1,7 +1,6 @@
 use std::io;
 use num_bigint::{BigInt, ToBigInt};
 use std::ops::{Mul, Div};
-use std::convert::TryInto;
 
 mod fraction;
 
@@ -14,13 +13,30 @@ pub fn recover() {
     let t: usize = t.trim().parse().expect("Non number value (T)");
 
     let mut key_parts: Vec<BigInt> = Vec::new();
+    let mut x: Vec<i128> = Vec::new();
 
     for _ in 0..t {
         // Parsing key_parts
-        let mut key_part = String::new();
+        let mut s = String::new();
         io::stdin()
-            .read_line(&mut key_part)
+            .read_line(&mut s)
             .expect("Failed to read key");
+
+        let mut s = s.split_whitespace();
+
+        let temp = match s.next() {
+            Some(val) => val,
+            _ => panic!()
+        };
+
+        let temp: i128 = temp.parse().unwrap();
+        x.push(temp);
+
+        let key_part = match s.next() {
+            Some(val) => val,
+            _ => panic!()
+        };
+
         let key_part = key_part.trim().trim_start_matches("0x");
         let key_part = BigInt::parse_bytes(key_part.as_bytes(), 16).expect("Failed to convert");
 
@@ -38,12 +54,10 @@ pub fn recover() {
                 continue
             }
 
-            let m_i128: i128 = (m + 1).try_into().unwrap(); 
-            let j_i128: i128 = (j + 1).try_into().unwrap();
-
-            num *= -m_i128;
-            den *= j_i128 - m_i128;
+            num *= -x[m];
+            den *= x[j] - x[m];
         }
+
         let mut num_big = num.to_bigint().unwrap();
         let den_big = den.to_bigint().unwrap();
 

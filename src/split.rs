@@ -42,6 +42,7 @@ pub fn split() {
 
     for i in 1..=n {
         let mut secret = key.clone();
+        print!("{} ", i);
         for j in 0..coefs.len() {
             let mut temp_big = coefs[j].clone();
             let mut i_big = i.to_bigint().unwrap();

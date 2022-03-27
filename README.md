@@ -1,30 +1,40 @@
-### Разделение и восстановление секрета по схеме Шамира ###
-***Программа, разделяет секретную строку в hex формате длиной 256 bit (например, приватный ключ ECDSA secp256k1) на N частей по схеме Шамира и восстанавливает его при предъявлении любых T частей.***
+### Shamir's secret sharing in Rust ###
+***Program divides key (256 bit hex) into N parts and restores it with presentation of any T parts***
 
-#### Клонирование репозитория и запуск ####
+#### Clone ####
  ```bash
-git clone https://github.com/Curryrasul/shamir-secret
-cd shamir-secret/
+git clone git@github.com:curryrasul/shamir-secret.git && cd shamir-secret/
 ```
 
-**Для сборки проекта введите:**
+**To build:**
 ```bash
 cargo build --release
 ```
 
-**Запуск после сборки:**
+**Run with split mode:**
 ```bash
 ./target/release/shamir-secret --split
+d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35
+10 5
+1  2db1757ba67da3a238bc5a7a8924469ef75a00a6db459389115150df7efed498
+2  -1a3d4bb9cfedab4ab2bca624a16843432c1f57f14a80e3e393b7552b6cd5cbb15
+3  -25935e9fa3b64d1105825afcd4e48d89f7ca2e4e816e5445ac200276bb119f6
+4  10317cca817f54ccfcb31ed0e9c8d25050b37f9e1ec2b5093fd4d3bf27e908e7b1
+5  409898ce593458c72e31b54b96ede65bf6559f8152bc48f291e4c5543f2d91bf7c
+6  a955792317e6dd1cd769951ddfc1f31bcf2f68788725023656d69d1a94166328e7
+7  1690c2edaff54780db043f724c042fa4e9bf34529ffd9a82e9a1bf6600a0fb0254e
+8  2a4e25dcd1836498614952346a84cfa30271d857074736c2fcd967d64f23d64fbed
+9  4887f3c953240fb1f041c70737b99ed7944f45e5b1047e988c997ef5c0b7b2739e0
+10  7460b9493e424c01e228444a491c1cb5fd387ea2d72692582cce21a6a825c55b223
 ```
 
 ```bash
 ./target/release/shamir-secret --recover
+5
+4  10317cca817f54ccfcb31ed0e9c8d25050b37f9e1ec2b5093fd4d3bf27e908e7b1
+5  409898ce593458c72e31b54b96ede65bf6559f8152bc48f291e4c5543f2d91bf7c
+6  a955792317e6dd1cd769951ddfc1f31bcf2f68788725023656d69d1a94166328e7
+7  1690c2edaff54780db043f724c042fa4e9bf34529ffd9a82e9a1bf6600a0fb0254e
+8  2a4e25dcd1836498614952346a84cfa30271d857074736c2fcd967d64f23d64fbed
+Key = d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35
 ```
-
-**Пример запуска в режиме split:** 
-![alt text](./images/split_mode.jpg)
-**Вывод 10 "частей" ключа, из которых 5 достаточно для восстановления**
-
-**Пример запуска в режиме recover:** 
-![alt text](./images/recover_mode.jpg)
-**Ввод 5 "частей" - ключ восстановлен**

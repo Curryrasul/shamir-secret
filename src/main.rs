@@ -1,19 +1,28 @@
-use clap::{Arg, App};
+mod utils;
+
+use clap::{App, Arg};
 use std::collections::hash_map::Entry::Occupied;
 
-mod split;
-mod recover;
+use shamir_secret::recover;
+use shamir_secret::split;
+
+use utils::parse_recover;
+use utils::parse_split;
 
 fn main() {
     let mut matches = App::new("Shamir's Secret Sharing")
-        .arg(Arg::with_name("split")
-             .long("split")
-             .takes_value(false)
-             .help("Start program in split mode"))
-        .arg(Arg::with_name("recover")
-             .long("recover")
-             .takes_value(false)
-             .help("Start program in recover mode"))
+        .arg(
+            Arg::with_name("split")
+                .long("split")
+                .takes_value(false)
+                .help("Start program in split mode"),
+        )
+        .arg(
+            Arg::with_name("recover")
+                .long("recover")
+                .takes_value(false)
+                .help("Start program in recover mode"),
+        )
         .get_matches();
 
     if matches.args.len() > 1 {
@@ -21,14 +30,18 @@ fn main() {
     }
 
     if let Occupied(_) = matches.args.entry("split") {
-        split::split();
-        return
-    }
+        let (key, n, t) = parse_split();
+        let res = split(key, n, t);
 
-    if let Occupied(_) = matches.args.entry("recover") {
-        recover::recover();
-        return 
-    }
+        for (index, key_part) in res.into_iter().enumerate() {
+            println!("{}  {:x}", index + 1, key_part);
+        }
+    } else if let Occupied(_) = matches.args.entry("recover") {
+        let (t, v) = parse_recover();
+        let res = recover(t, v);
 
-    panic!("Not enough args!");
+        println!("Key = {:x}", res);
+    } else {
+        panic!("Not enough args!");
+    }
 }

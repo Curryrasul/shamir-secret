@@ -28,6 +28,7 @@ d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35
 10  7460b9493e424c01e228444a491c1cb5fd387ea2d72692582cce21a6a825c55b223
 ```
 
+**Run with recover mode:**
 ```bash
 ./target/release/shamir-secret --recover
 5
